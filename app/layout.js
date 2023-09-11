@@ -8,9 +8,10 @@ import Link from "next/link";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({ children }) {
-  const [activeComponent, setActiveComponent] = useState("intro");
+  const [activeComponent, setActiveComponent] = useState();
 
   useEffect(() => {
+    setActiveComponent(window.location.href.split("/").pop())
     document.querySelectorAll(".logo-div").forEach((e) => {
       e.innerHTML = `<img src="./logo192.png" />`;
     });
@@ -64,9 +65,9 @@ export default function RootLayout({ children }) {
 
             <div className="sidebar">
               <Link
-                className={activeComponent === "intro" ? "active" : ""}
+                className={activeComponent === "" ? "active" : ""}
                 onClick={() => {
-                  setActiveComponent("intro");
+                  setActiveComponent("");
                 }}
                 href="/"
               >
@@ -75,9 +76,9 @@ export default function RootLayout({ children }) {
               </Link>
 
               <Link
-                className={activeComponent === "songRequest" ? "active" : ""}
+                className={activeComponent === "song-request" ? "active" : ""}
                 onClick={() => {
-                  setActiveComponent("songRequest");
+                  setActiveComponent("song-request");
                 }}
                 href="/song-request"
               >
@@ -86,9 +87,9 @@ export default function RootLayout({ children }) {
               </Link>
 
               <Link
-                className={activeComponent === "suggestion" ? "active" : ""}
+                className={activeComponent === "suggestion-request" ? "active" : ""}
                 onClick={() => {
-                  setActiveComponent("suggestion");
+                  setActiveComponent("suggestion-request");
                 }}
                 href="/suggestion-request"
               >

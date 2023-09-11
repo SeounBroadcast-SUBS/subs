@@ -25,7 +25,6 @@ const SongRequest = () => {
     } else {
       setIsRefresh(0);
     }
-    document.querySelectorAll(".wraper")[0].reset();
   };
 
   const Toast = Swal.mixin({
@@ -78,6 +77,11 @@ const SongRequest = () => {
     //   </p>`,
     // });
   }, [isRefresh]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {getSongList();}, 20000);
+    return () => clearInterval(interval);
+  }, []);
 
   const handleSubmit = (event) => {
     event.preventDefault();
