@@ -7,11 +7,13 @@ import LoadingScreen from "../loading";
 import Navbar from "../Navbar";
 
 const Story = () => {
-  const [studentNumber, setStudentNumber] = useState("");
+  const [studentNumber, setStudentNumber] = useState("anonymous");
   const [name, setName] = useState("");
   const [story, setStory] = useState("");
   const [songTitle, setSongTitle] = useState("");
   const [singer, setSinger] = useState("");
+
+  const [activeSelection, setActiveSelection] = useState("anonymous");
 
   const [isLoad, setIsLoad] = useState(false);
 
@@ -83,79 +85,157 @@ const Story = () => {
       });
   };
 
+  const anonymous = (
+    <form className="wraper story">
+      <h1>Story Request</h1>
+      <div className="input-info">
+        <span className="material-icons-sharp"> person </span>
+        <p>신청자 이름:</p>
+      </div>
+      <input
+        className="inputs"
+        type="text"
+        id="user-name"
+        onChange={(event) => {
+          setName(event.target.value);
+        }}
+      />
+      <div className="input-info">
+        <span className="material-icons-sharp"> pin </span>
+        <p>학번:</p>
+      </div>
+      <input
+        className="inputs"
+        type="text"
+        id="school-number"
+        onChange={(event) => {
+          setStudentNumber(event.target.value);
+        }}
+      />
+      <div className="input-info">
+        <span className="material-icons-sharp"> lyrics </span>
+        <p>신청곡 제목:</p>
+      </div>
+      <input
+        className="inputs"
+        type="text"
+        id="song-name"
+        onChange={(event) => {
+          setSongTitle(event.target.value);
+        }}
+      />
+      <div className="input-info">
+        <span className="material-icons-sharp"> album </span>
+        <p>가수:</p>
+      </div>
+      <input
+        className="inputs"
+        type="text"
+        id="artist"
+        onChange={(event) => {
+          setSinger(event.target.value);
+        }}
+      />
+
+      <div className="input-info">
+        <span className="material-icons-sharp"> feed </span>
+        <p>사연:</p>
+      </div>
+      <input
+        className="inputs"
+        type="text"
+        id="artist"
+        onChange={(event) => {
+          setStory(event.target.value);
+        }}
+      />
+
+      <button type="submit" className="submit-btn" onClick={handleSubmit}>
+        신청하기
+      </button>
+    </form>
+  );
+
+  const realname = (
+    <form className="wraper story">
+      <h1>Story Request</h1>
+      <div className="input-info">
+        <span className="material-icons-sharp"> lyrics </span>
+        <p>신청곡 제목:</p>
+      </div>
+      <input
+        className="inputs"
+        type="text"
+        id="song-name"
+        onChange={(event) => {
+          setSongTitle(event.target.value);
+        }}
+      />
+      <div className="input-info">
+        <span className="material-icons-sharp"> album </span>
+        <p>가수:</p>
+      </div>
+      <input
+        className="inputs"
+        type="text"
+        id="artist"
+        onChange={(event) => {
+          setSinger(event.target.value);
+        }}
+      />
+
+      <div className="input-info">
+        <span className="material-icons-sharp"> feed </span>
+        <p>사연:</p>
+      </div>
+      <input
+        className="inputs"
+        type="text"
+        id="artist"
+        onChange={(event) => {
+          setStory(event.target.value);
+        }}
+      />
+
+      <button type="submit" className="submit-btn" onClick={handleSubmit}>
+        신청하기
+      </button>
+    </form>
+  );
+
   return (
     <>
       {isLoad ? <LoadingScreen /> : ""}
 
       <main>
-        <form className="wraper">
-          <h1>Story Request</h1>
-          <div className="input-info">
-            <span className="material-icons-sharp"> person </span>
-            <p>신청자 이름(익명이면 스페이스바):</p>
-          </div>
-          <input
-            className="inputs"
-            type="text"
-            id="user-name"
-            onChange={(event) => {
-              setName(event.target.value);
+        <div className="select">
+          <button
+            className={
+              activeSelection === "anonymous"
+                ? "wraper select-anonymous active"
+                : "wraper select-anonymous"
+            }
+            onClick={() => {
+              setName("anonymous")
+              setStudentNumber("anonymous")
+              setActiveSelection("anonymous");
             }}
-          />
-          <div className="input-info">
-            <span className="material-icons-sharp"> pin </span>
-            <p>학번(익명이면 스페이스바):</p>
-          </div>
-          <input
-            className="inputs"
-            type="text"
-            id="school-number"
-            onChange={(event) => {
-              setStudentNumber(event.target.value);
-            }}
-          />
-          <div className="input-info">
-            <span className="material-icons-sharp"> lyrics </span>
-            <p>신청곡 제목:</p>
-          </div>
-          <input
-            className="inputs"
-            type="text"
-            id="song-name"
-            onChange={(event) => {
-              setSongTitle(event.target.value);
-            }}
-          />
-          <div className="input-info">
-            <span className="material-icons-sharp"> album </span>
-            <p>가수:</p>
-          </div>
-          <input
-            className="inputs"
-            type="text"
-            id="artist"
-            onChange={(event) => {
-              setSinger(event.target.value);
-            }}
-          />
-
-          <div className="input-info">
-            <span className="material-icons-sharp"> feed </span>
-            <p>사연:</p>
-          </div>
-          <input
-            className="inputs"
-            type="text"
-            id="artist"
-            onChange={(event) => {
-              setStory(event.target.value);
-            }}
-          />
-
-          <button type="submit" className="submit-btn" onClick={handleSubmit}>
-            신청하기
+          >
+            <p className="selection">익명</p>
           </button>
-        </form>
+          <button
+            className={
+              activeSelection === "realname"
+                ? "wraper select-anonymous active"
+                : "wraper select-anonymous"
+            }
+            onClick={() => setActiveSelection("realname")}
+          >
+            <p className="selection">실명</p>
+          </button>
+        </div>
+
+        {activeSelection === "realname" ? realname : anonymous}
       </main>
       <div className="right-section">
         <Navbar />

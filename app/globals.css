@@ -2,15 +2,15 @@
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
@@ -27,6 +27,8 @@ code {
   --color-background: #f6f6f9;
 
   --color-input-text: #363949;
+
+  --color-selection-deactive: #efefef;
 
   --card-border-radius: 2rem;
   --border-radius-1: 0.4rem;
@@ -45,6 +47,9 @@ code {
   --color-dark-variant: #a3bdcc;
   --color-light: rgba(0, 0, 0, 0.4);
   --box-shadow: 0 2rem 3rem var(--color-light);
+
+  --color-selection-deactive: #000000;
+  --color-selection-deactive: rgba(0, 0, 0, 0.4);
 
   --color-input-text: #edeffd;
 }
@@ -566,6 +571,33 @@ main table tbody tr:last-child td {
 .wraper:hover {
   box-shadow: none;
   cursor: default;
+}
+
+.wraper.story {
+  border-radius: 0 0 var(--card-border-radius) var(--card-border-radius);
+  margin-top: 0;
+}
+
+.select {
+  display: flex;
+}
+
+.wraper.select-anonymous,
+.wraper.select-withname {
+  border-radius: var(--card-border-radius) var(--card-border-radius) 0 0;
+  width: 50%;
+  box-shadow: none;
+  background-color: var(--color-selection-deactive);
+}
+
+.wraper.select-anonymous.active,
+.wraper.select-withname.active {
+  background-color: var(--color-white);
+}
+
+.selection {
+  font-size: 14px;
+  letter-spacing: 0.5px;
 }
 
 .loading-background {
