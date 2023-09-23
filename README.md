@@ -18,7 +18,7 @@ The SUBS (Seoun Broadcasting System) is a student organization at 서운중학�
 A: Users can submit song requests on the website. The SUBS team members then curate and play the selected songs. Please note that not all requested songs may be played.
 
 ### Q: How are members of the broadcasting team selected?
-A: Broadcasting team members are recruited at the beginning of the semester (March-April). Look for recruitment notices on the [서운중학교 공식 홈페이지](https://seoun.sen.ms.kr/) and within the school premises.
+A: Broadcasting team members are recruited at the beginning of the semester (March-April). Look for recruitment notices on the [Seoun Middle School Website](https://seoun.sen.ms.kr/) and within the school premises.
 
 ### Q: Who developed the broadcasting website?
 A: The broadcasting website was developed by Kang Guhyeon:
