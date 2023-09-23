@@ -41,7 +41,7 @@ const SuggestionRequest = () => {
 
   const getSuggestionRequest = () => {
     fetch(
-      "https://port-0-seounbss-backend-otjl2cli677tyd.sel4.cloudtype.app/view-suggestion" // https://port-0-seounbss-backend-otjl2cli677tyd.sel4.cloudtype.app
+      "https://port-0-subs-backend-4fju66f2clmuhrt4d.sel5.cloudtype.app/view-suggestion" // https://port-0-seounbss-backend-otjl2cli677tyd.sel4.cloudtype.app
     )
       .then((response) => response.json())
       .then((data) => {
