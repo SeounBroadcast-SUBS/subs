@@ -41,7 +41,7 @@ const SongRequest = () => {
 
   const getSongList = () => {
     fetch(
-      "https://port-0-seounbss-backend-otjl2cli677tyd.sel4.cloudtype.app/view-request"
+      "https://port-0-subs-backend-4fju66f2clmuhrt4d.sel5.cloudtype.app/view-request"
     )
       .then((response) => response.json())
       .then((data) => {
@@ -107,7 +107,7 @@ const SongRequest = () => {
 
     // Send the request to the server
     fetch(
-      "https://port-0-seounbss-backend-otjl2cli677tyd.sel4.cloudtype.app/song-request",
+      "https://port-0-subs-backend-4fju66f2clmuhrt4d.sel5.cloudtype.app/song-request",
       {
         method: "POST",
         headers: {
