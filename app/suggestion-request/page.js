@@ -91,7 +91,7 @@ const SuggestionRequest = () => {
 
     // Send the request to the server
     fetch(
-      "https://port-0-seounbss-backend-otjl2cli677tyd.sel4.cloudtype.app/suggestion-request", // https://port-0-seounbss-backend-otjl2cli677tyd.sel4.cloudtype.app
+      "https://port-0-subs-backend-4fju66f2clmuhrt4d.sel5.cloudtype.app/suggestion-request", // https://port-0-seounbss-backend-otjl2cli677tyd.sel4.cloudtype.app
       {
         method: "POST",
         headers: {
