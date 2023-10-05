@@ -8,7 +8,11 @@ const Navbar = () => {
   useEffect(() => {
     setIsDomLoaded(true);
     document.querySelectorAll(".logo-div").forEach((e) => {
-      e.innerHTML = `<img src="./logo192.png" />`;
+      if (localStorage.getItem("appearence") === "dark") {
+        e.innerHTML = `<img src="./logo192_black.png" />`;
+      } else {
+        e.innerHTML = `<img src="./logo192.png" />`;
+      }
     });
   }, []);
 
@@ -29,7 +33,12 @@ const Navbar = () => {
             className="dark-mode"
             onClick={() => {
               document.body.classList.toggle("dark-mode-variables");
-              if (document.querySelector(".dark-mode-variables") !== null) {
+              localStorage.setItem(
+                "appearence",
+                localStorage.getItem("appearence") === "dark" ? "light" : "dark"
+              );
+
+              if (localStorage.getItem("appearence") === "dark") {
                 document.querySelectorAll(".logo-div").forEach((e) => {
                   console.log("Changing to dark image");
                   e.innerHTML = `<img src="./logo192_black.png" />`;

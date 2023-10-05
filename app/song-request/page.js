@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 
 import Navbar from "../Navbar";
-import LoadingScreen from "../loading";
+import FetchLoadingScreen from "../fetchLoading";
 
 import Swal from "sweetalert2";
 
@@ -165,7 +165,7 @@ const SongRequest = () => {
 
   return (
     <>
-      {isLoad ? <LoadingScreen /> : ""}
+      {isLoad ? <FetchLoadingScreen /> : <></>}
 
       <main>
         <form className="wraper">

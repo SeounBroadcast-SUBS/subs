@@ -1,65 +1,67 @@
-.loading {
+.skeleton_main {
+  height: 40rem;
   width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: fixed;
-  background-color: rgba(0, 0, 0, 0.4);
-  opacity: 0.6;
-  height: 100vh;
-  z-index: 1000;
+  margin-top: 1rem;
+  margin-top: 1rem;
+  padding: 1.8rem;
+  border-radius: 2rem;
+  box-shadow: 0 2rem 3rem var(--color-light);
+  cursor: pointer;
+  background: linear-gradient(90deg, #fff 25%, #eee 50%, #fff 75%);
+  background-size: 200% 100%;
+  animation: loading 3s infinite;
 }
 
-.pl {
-  display: block;
-  width: 6.25em;
-  height: 6.25em;
-}
-.pl__ring,
-.pl__ball {
-  animation: ring 2s ease-out infinite;
-}
-.pl__ball {
-  animation-name: ball;
+.skeleton_right {
+  height: 27rem;
+  width: 100%;
+  margin-top: 1rem;
+  margin-top: 1rem;
+  padding: 1.8rem;
+  border-radius: 2rem;
+  box-shadow: 0 2rem 3rem var(--color-light);
+  cursor: pointer;
+  background: linear-gradient(90deg, #fff 25%, #eee 50%, #fff 75%);
+  background-size: 200% 100%;
+  animation: loading 3s infinite;
 }
 
-/* Animation */
-@keyframes ring {
-  from {
-    stroke-dasharray: 0 257 0 0 1 0 0 258;
-  }
-  25% {
-    stroke-dasharray: 0 0 0 0 257 0 258 0;
-  }
-  50%,
-  to {
-    stroke-dasharray: 0 0 0 0 0 515 0 0;
-  }
+.skeleton_main_dark {
+  height: 40rem;
+  width: 100%;
+  margin-top: 1rem;
+  margin-top: 1rem;
+  padding: 1.8rem;
+  border-radius: 2rem;
+  box-shadow: 0 2rem 3rem var(--color-light);
+  cursor: pointer;
+  background: linear-gradient(90deg, #202528 25%, #000 50%, #202528 75%);
+  background-size: 200% 100%;
+  animation: loading 3s infinite;
 }
-@keyframes ball {
-  from,
+
+.skeleton_right_dark {
+  height: 40rem;
+  width: 100%;
+  margin-top: 1rem;
+  margin-top: 1rem;
+  padding: 1.8rem;
+  border-radius: 2rem;
+  box-shadow: 0 2rem 3rem var(--color-light);
+  cursor: pointer;
+  background: linear-gradient(90deg, #202528 25%, #000 50%, #202528 75%);
+  background-size: 200% 100%;
+  animation: loading 3s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
   50% {
-    animation-timing-function: ease-in;
-    stroke-dashoffset: 1;
+    background-position: -200% 0;
   }
-  64% {
-    animation-timing-function: ease-in;
-    stroke-dashoffset: -109;
-  }
-  78% {
-    animation-timing-function: ease-in;
-    stroke-dashoffset: -145;
-  }
-  92% {
-    animation-timing-function: ease-in;
-    stroke-dashoffset: -157;
-  }
-  57%,
-  71%,
-  85%,
-  99%,
-  to {
-    animation-timing-function: ease-out;
-    stroke-dashoffset: -163;
+  100% {
+    background-position: 200% 0;
   }
 }

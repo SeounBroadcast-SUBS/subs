@@ -568,6 +568,15 @@ main table tbody tr:last-child td {
   transition: all 0.3s ease;
 }
 
+@keyframes loading {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
 .wraper:hover {
   box-shadow: none;
   cursor: default;

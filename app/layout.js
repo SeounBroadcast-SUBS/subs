@@ -11,9 +11,14 @@ export default function RootLayout({ children }) {
   const [activeComponent, setActiveComponent] = useState();
 
   useEffect(() => {
-    setActiveComponent(window.location.href.split("/").pop())
+    setActiveComponent(window.location.href.split("/").pop());
     document.querySelectorAll(".logo-div").forEach((e) => {
-      e.innerHTML = `<img src="./logo192.png" />`;
+      if (localStorage.getItem("appearence") === "dark") {
+        e.innerHTML = `<img src="./logo192_black.png" />`;
+        document.body.className += " dark-mode-variables";
+      } else {
+        e.innerHTML = `<img src="./logo192.png" />`;
+      }
     });
   }, []);
 
@@ -87,7 +92,9 @@ export default function RootLayout({ children }) {
               </Link>
 
               <Link
-                className={activeComponent === "suggestion-request" ? "active" : ""}
+                className={
+                  activeComponent === "suggestion-request" ? "active" : ""
+                }
                 onClick={() => {
                   setActiveComponent("suggestion-request");
                 }}
