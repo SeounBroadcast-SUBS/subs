@@ -26,6 +26,3 @@ A: The broadcasting website was developed by Kang Guhyeon:
    - Student ID: 21201
    - Email: gangguhyeon1113@gmail.com
    - Instagram: @kgh_guhyeon
-
-## Screenshots
-Writing...
