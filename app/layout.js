@@ -115,7 +115,7 @@ export default function RootLayout({ children }) {
                 <h3>방송일정</h3>
               </Link> */}
 
-              <Link
+              {/* <Link
                 className={activeComponent === "story" ? "active" : ""}
                 onClick={() => {
                   setActiveComponent("story");
@@ -124,8 +124,7 @@ export default function RootLayout({ children }) {
               >
                 <span className="material-icons-sharp"> feed </span>
                 <h3>사연신청</h3>
-                {/* <span className="message-count"></span> */}
-              </Link>
+              </Link> */}
 
               <a>
                 {/* <span className="material-icons-sharp"> logout </span> */}
