@@ -40,7 +40,7 @@ const SongRequest = () => {
   });
 
   useEffect(() => {
-    const socket = new WebSocket("ws://localhost:3000/view-requests");
+    const socket = new WebSocket("wss://port-0-subs-backend-4fju66f2clmuhrt4d.sel5.cloudtype.app/view-requests");
 
     // WebSocket connection handling
     socket.addEventListener("open", (event) => {
@@ -102,7 +102,7 @@ const SongRequest = () => {
     };
 
     // Send the request to the server
-    fetch("http://localhost:3000/song-request", {
+    fetch("http://port-0-subs-backend-4fju66f2clmuhrt4d.sel5.cloudtype.app/song-request", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
