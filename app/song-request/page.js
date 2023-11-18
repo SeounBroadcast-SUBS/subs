@@ -39,48 +39,44 @@ const SongRequest = () => {
     },
   });
 
-  const getSongList = () => {
-    fetch(
-      "https://port-0-subs-backend-4fju66f2clmuhrt4d.sel5.cloudtype.app/view-request"
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        if (data.length === 0) {
-          // No requested songs
-          setSongList(["아직 신청된 노래가 없습니다."]);
-        } else {
-          const songLabels = data.map(
-            (song) => `${song.songTitle} - ${song.singer}`
-          );
-          setSongList(songLabels);
-        }
-      })
-      .catch((error) => {
-        console.error(
-          'An error occurred while requesting a HTTP to a server, Method: "GET". error code:',
-          error
-        );
-      });
-  };
-
   useEffect(() => {
-    getSongList();
+    const socket = new WebSocket("ws://localhost:3000/view-requests");
+
+    // WebSocket connection handling
+    socket.addEventListener("open", (event) => {
+      console.log("WebSocket connection opened");
+    });
+
+    socket.addEventListener("message", (event) => {
+      const message = JSON.parse(event.data);
+      console.log(message);
+      if (message.data.length === 0) {
+        setSongList(["아직 신청된 곡이 없습니다."])
+      } else {
+        const songLabels = message.data.map(
+          (song) => `${song.songTitle} - ${song.singer}`
+        );
+        setSongList(songLabels);
+      }
+    });
+
+    socket.addEventListener("close", (event) => {
+      console.log("WebSocket connection closed");
+    });
+
     // Swal.fire({
     //   icon: "info",
     //   title: "죄송합니다.",
-    //   html: `<p>
+    //   html: `
+    //   <p>
     //     2023년 8월 24일 NCT와 BTS의 노래가 신청되지 않는 현상이 발생했습니다.
     //     이는 방송부 사이트 개발자가 동일한 가수의 신청곡을 신청하지 못하도록 하는 기능을 개발중에 일어난 참사입니다. 죄송합니다. <br /> <br />
     //     하지만, 동일한 가수의 신청곡이 다양한 편법(예: "b t s", "bts)")으로 신청되는 것은 점심시간 음악신청 신청 시 주의사항을 위반하는 것이므로 블랙리스트에 추가될 수 있습니다.
     //     노래 신청 전에 동일한 가수의 신청곡이 있는지 꼭 확인하고 신청하여 주시기 바랍니다.
     //   </p>`,
     // });
-  }, [isRefresh]);
 
-  useEffect(() => {
-    const interval = setInterval(() => {getSongList();}, 20000);
-    return () => clearInterval(interval);
+    return () => socket.close();
   }, []);
 
   const handleSubmit = (event) => {
@@ -106,16 +102,13 @@ const SongRequest = () => {
     };
 
     // Send the request to the server
-    fetch(
-      "https://port-0-subs-backend-4fju66f2clmuhrt4d.sel5.cloudtype.app/song-request",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(request),
-      }
-    )
+    fetch("http://localhost:3000/song-request", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(request),
+    })
       .then((response) => {
         Swal.fire({
           title: "신청 시 주의사항",
