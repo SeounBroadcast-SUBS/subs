@@ -102,7 +102,7 @@ const SongRequest = () => {
     };
 
     // Send the request to the server
-    fetch("http://port-0-subs-backend-4fju66f2clmuhrt4d.sel5.cloudtype.app/song-request", {
+    fetch("https://port-0-subs-backend-4fju66f2clmuhrt4d.sel5.cloudtype.app/song-request", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
