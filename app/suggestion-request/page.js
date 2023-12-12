@@ -41,7 +41,7 @@ const SuggestionRequest = () => {
 
   const getSuggestionRequest = () => {
     fetch(
-      "https://port-0-subs-backend-4fju66f2clmuhrt4d.sel5.cloudtype.app/view-suggestion" // https://port-0-seounbss-backend-otjl2cli677tyd.sel4.cloudtype.app
+      "https://cuddly-eureka-g4q65777rrr439675-3000.app.github.dev/view-suggestion"
     )
       .then((response) => response.json())
       .then((data) => {
@@ -91,7 +91,7 @@ const SuggestionRequest = () => {
 
     // Send the request to the server
     fetch(
-      "https://port-0-subs-backend-4fju66f2clmuhrt4d.sel5.cloudtype.app/suggestion-request", // https://port-0-seounbss-backend-otjl2cli677tyd.sel4.cloudtype.app
+      "https://cuddly-eureka-g4q65777rrr439675-3000.app.github.dev/suggestion-request",
       {
         method: "POST",
         headers: {

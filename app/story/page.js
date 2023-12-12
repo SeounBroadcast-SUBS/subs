@@ -28,7 +28,7 @@ const Story = () => {
 
     // Send the request to the server
     fetch(
-      "https://port-0-subs-backend-4fju66f2clmuhrt4d.sel5.cloudtype.app/add-story",
+      "https://cuddly-eureka-g4q65777rrr439675-3000.app.github.dev/add-story",
       {
         method: "POST",
         headers: {

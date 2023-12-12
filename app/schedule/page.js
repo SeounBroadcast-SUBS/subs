@@ -21,7 +21,7 @@ const Schedule = () => {
 
   const getSchedule = () => {
     fetch(
-      "https://port-0-subs-backend-4fju66f2clmuhrt4d.sel5.cloudtype.app/view-schedule"
+      "https://cuddly-eureka-g4q65777rrr439675-3000.app.github.dev/view-schedule"
     ).then((response) => {
       if (response.ok) {
         response.json().then((data) => {
@@ -101,7 +101,7 @@ const Schedule = () => {
       preConfirm: (password) => {
         if (password === "서운중방송부1111") {
           fetch(
-            "https://port-0-subs-backend-4fju66f2clmuhrt4d.sel5.cloudtype.app/add-schedule",
+            "https://cuddly-eureka-g4q65777rrr439675-3000.app.github.dev/add-schedule",
             {
               method: "POST",
               headers: {
