@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 
 import Navbar from "../Navbar";
-import LoadingScreen from "../loading";
+import FetchLoadingScreen from "../fetchLoading";
 
 import Swal from "sweetalert2";
 
@@ -27,30 +27,20 @@ const SuggestionRequest = () => {
     document.querySelectorAll(".wraper")[1].reset();
   };
 
-  const Toast = Swal.mixin({
-    toast: true,
-    position: "bottom-right",
-    showConfirmButton: false,
-    timer: 3000,
-    timerProgressBar: true,
-    didOpen: (toast) => {
-      toast.addEventListener("mouseenter", Swal.stopTimer);
-      toast.addEventListener("mouseleave", Swal.resumeTimer);
-    },
-  });
-
   const getSuggestionRequest = () => {
-    fetch(
-      "https://cuddly-eureka-g4q65777rrr439675-3000.app.github.dev/view-suggestion"
-    )
+    fetch("/api/suggestion-request")
       .then((response) => response.json())
       .then((data) => {
-        if (data.length === 0) {
-          // No requested suggestions
+        if (data.data.length === 0) {
+          setSuggestionContent(
+            <div>
+              <p className="label-list">아직 신청된 건의사항이 없습니다!</p>
+            </div>
+          );
         } else {
           setSuggestionContent(
-            data.map((suggestion, index) => (
-              <div key={index} className="">
+            data.data.map((suggestion, index) => (
+              <div key={index}>
                 <p className="label-list">
                   <span>Q: {suggestion.suggestion}</span>
                   <br />
@@ -90,16 +80,13 @@ const SuggestionRequest = () => {
     };
 
     // Send the request to the server
-    fetch(
-      "https://cuddly-eureka-g4q65777rrr439675-3000.app.github.dev/suggestion-request",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(request),
-      }
-    )
+    fetch("/api/suggestion-request", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(request),
+    })
       .then((response) => {
         if (response.ok) {
           // Request successful
@@ -136,7 +123,7 @@ const SuggestionRequest = () => {
   };
   return (
     <>
-      {isLoad ? <LoadingScreen /> : ""}
+      {isLoad ? <FetchLoadingScreen /> : ""}
       <main>
         <div className="wraper">
           <h1>신청 목록:</h1>

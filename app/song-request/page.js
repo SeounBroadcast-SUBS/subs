@@ -17,14 +17,24 @@ const SongRequest = () => {
 
   const [isLoad, setIsLoad] = useState(false);
 
-  const [isRefresh, setIsRefresh] = useState(false);
-
   const refreshSongList = () => {
-    if (isRefresh === 0) {
-      setIsRefresh(1);
-    } else {
-      setIsRefresh(0);
-    }
+    fetch("/api/song-request")
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        if (data.data.length === 0) {
+          setSongList(["아직 신청된 곡이 없습니다."]);
+        } else {
+          const songLabels = data.data.map(
+            (song) => `${song.songTitle} - ${song.singer}`
+          );
+          setSongList(songLabels);
+        }
+      });
+    setSongTitle("");
+    setSinger("");
+    setName("");
+    setStudentNumber("");
   };
 
   const Toast = Swal.mixin({
@@ -40,29 +50,19 @@ const SongRequest = () => {
   });
 
   useEffect(() => {
-    const socket = new WebSocket("wss://cuddly-eureka-g4q65777rrr439675-3000.app.github.dev/view-requests");
-
-    // WebSocket connection handling
-    socket.addEventListener("open", (event) => {
-      console.log("WebSocket connection opened");
-    });
-
-    socket.addEventListener("message", (event) => {
-      const message = JSON.parse(event.data);
-      console.log(message);
-      if (message.data.length === 0) {
-        setSongList(["아직 신청된 곡이 없습니다."])
-      } else {
-        const songLabels = message.data.map(
-          (song) => `${song.songTitle} - ${song.singer}`
-        );
-        setSongList(songLabels);
-      }
-    });
-
-    socket.addEventListener("close", (event) => {
-      console.log("WebSocket connection closed");
-    });
+    fetch("/api/song-request")
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        if (data.data.length === 0) {
+          setSongList(["아직 신청된 곡이 없습니다."]);
+        } else {
+          const songLabels = data.data.map(
+            (song) => `${song.songTitle} - ${song.singer}`
+          );
+          setSongList(songLabels);
+        }
+      });
 
     // Swal.fire({
     //   icon: "info",
@@ -75,8 +75,6 @@ const SongRequest = () => {
     //     노래 신청 전에 동일한 가수의 신청곡이 있는지 꼭 확인하고 신청하여 주시기 바랍니다.
     //   </p>`,
     // });
-
-    return () => socket.close();
   }, []);
 
   const handleSubmit = (event) => {
@@ -102,7 +100,7 @@ const SongRequest = () => {
     };
 
     // Send the request to the server
-    fetch("https://cuddly-eureka-g4q65777rrr439675-3000.app.github.dev/song-request", {
+    fetch("/api/song-request", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -171,6 +169,7 @@ const SongRequest = () => {
             className="inputs"
             type="text"
             id="user-name"
+            value={name}
             onChange={(event) => {
               setName(event.target.value);
             }}
@@ -183,6 +182,7 @@ const SongRequest = () => {
             className="inputs"
             type="text"
             id="school-number"
+            value={studentNumber}
             onChange={(event) => {
               setStudentNumber(event.target.value);
             }}
@@ -195,6 +195,7 @@ const SongRequest = () => {
             className="inputs"
             type="text"
             id="song-name"
+            value={songTitle}
             onChange={(event) => {
               setSongTitle(event.target.value);
             }}
@@ -207,6 +208,7 @@ const SongRequest = () => {
             className="inputs"
             type="text"
             id="artist"
+            value={singer}
             onChange={(event) => {
               setSinger(event.target.value);
             }}
