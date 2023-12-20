@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import styles from "./loading.module.css";
+import styles from "@/styles/loading.module.css"
 
 const LoadingScreen = () => {
   const [appearence, setAppearence] = useState("");

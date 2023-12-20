@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import styles from "./fetchLoading.module.css";
+import styles from "@/styles/fetchLoading.module.css"
 
 const FetchLoadingScreen = () => {
   useEffect(() => {

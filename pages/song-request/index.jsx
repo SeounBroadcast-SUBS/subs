@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 
-import Navbar from "../Navbar";
-import FetchLoadingScreen from "../fetchLoading";
+import Navbar from "@/components/Navbar";
+import FetchLoadingScreen from "@/components/fetchLoading";
 
 import Swal from "sweetalert2";
 
@@ -98,6 +98,8 @@ const SongRequest = () => {
       songTitle,
       singer,
     };
+
+    console.log(request);
 
     // Send the request to the server
     fetch("/api/song-request", {
@@ -222,14 +224,18 @@ const SongRequest = () => {
       <div className="right-section">
         <Navbar />
         <div className="wraper">
-          <p className="info-text">신청 시 주의사항:</p>
-          <li>건전한 노래만 신청해주세요.</li>
-          <li>일본노래, 이세계아이돌, 보컬로이드 등은 신청하지 말아주세요.</li>
-          <li>본인이 직접 신청해주세요.</li>
-          <li>중복된 가수의 노래 신청은 하지 말아주세요.</li>
+          <h2>Precautions</h2>
+          <li className="label-list">건전한 노래만 신청해주세요.</li>
+          <li className="label-list">
+            일본노래, 이세계아이돌, 보컬로이드 등은 신청하지 말아주세요.
+          </li>
+          <li className="label-list">본인이 직접 신청해주세요.</li>
+          <li className="label-list">
+            중복된 가수의 노래 신청은 하지 말아주세요.
+          </li>
         </div>
         <div className="wraper">
-          <p className="info-text">신청 목록:</p>
+          <h2>List</h2>
           {songList.map((song, index) => (
             <li
               key={index}

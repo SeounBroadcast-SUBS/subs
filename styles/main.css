@@ -85,12 +85,21 @@ img {
   object-fit: cover;
 }
 
+.dark-mode-variables img {
+  filter: invert(100%);
+}
+
 h1 {
   font-weight: 800;
   font-size: 1.8rem;
 }
 
 h2 {
+  font-weight: 800;
+  font-size: 1.4rem;
+}
+
+.typo-logo {
   font-weight: 600;
   font-size: 1.4rem;
 }
@@ -438,6 +447,7 @@ main table tbody tr:last-child td {
   background-color: var(--color-primary);
   color: white;
   border-radius: var(--border-radius-1);
+  transition: all ease-out 0.3s;
 }
 
 .right-section .nav .profile {

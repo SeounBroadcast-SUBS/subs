@@ -2,12 +2,12 @@
 
 import React, { useState, useEffect } from "react";
 
-import Navbar from "../Navbar";
-import FetchLoadingScreen from "../fetchLoading";
+import Navbar from "@/components/Navbar";
+import FetchLoadingScreen from "@/components/fetchLoading";
 
 import Swal from "sweetalert2";
 
-const SuggestionRequest = () => {
+export default function SuggestionRequest() {
   const [suggestion, setSuggestion] = useState("");
   const [name, setName] = useState("");
   const [studentNumber, setStudentNumber] = useState("");
@@ -34,7 +34,7 @@ const SuggestionRequest = () => {
         if (data.data.length === 0) {
           setSuggestionContent(
             <div>
-              <p className="label-list">아직 신청된 건의사항이 없습니다!</p>
+              <p className="label-list">아직 신청된 건의사항이 없습니다.</p>
             </div>
           );
         } else {
@@ -44,7 +44,12 @@ const SuggestionRequest = () => {
                 <p className="label-list">
                   <span>Q: {suggestion.suggestion}</span>
                   <br />
-                  <span>A: {suggestion.answer}</span>
+                  <span>
+                    A:{" "}
+                    {suggestion.answer === ""
+                      ? "답변이 진행중입니다..."
+                      : suggestion.answer}
+                  </span>
                 </p>
               </div>
             ))
@@ -126,7 +131,7 @@ const SuggestionRequest = () => {
       {isLoad ? <FetchLoadingScreen /> : ""}
       <main>
         <div className="wraper">
-          <h1>신청 목록:</h1>
+          <h1>Suggestion Request</h1>
           <br />
           {suggestionContent}
         </div>
@@ -134,7 +139,7 @@ const SuggestionRequest = () => {
       <div className="right-section">
         <Navbar />
         <form className="wraper">
-          <h1>Suggestion Request</h1>
+          <h2>Request</h2>
           <div className="input-info">
             <span className="material-icons-sharp"> person </span>
             <p>신청자 이름:</p>
@@ -179,6 +184,4 @@ const SuggestionRequest = () => {
       </div>
     </>
   );
-};
-
-export default SuggestionRequest;
+}

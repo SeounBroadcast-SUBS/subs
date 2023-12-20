@@ -1,6 +1,9 @@
 "use client";
 
-import Navbar from "./Navbar";
+import Navbar from "@/components/Navbar";
+import Image from "next/image";
+import logo from "@/public/logo192.png";
+
 import { useState, useEffect } from "react";
 
 export default function Home() {
@@ -8,7 +11,7 @@ export default function Home() {
 
   useEffect(() => {
     setIsDomLoaded(true);
-  });
+  }, []);
 
   return (
     <>
@@ -31,7 +34,7 @@ export default function Home() {
               </p>
             </div>
             <div className="wraper">
-              <h1>FAQ</h1>
+              <h2>FAQ</h2>
               <div className="faq-wraper">
                 <p className="faq-text">
                   Q: 점심시간 음악방송의 음악 선정은 어떻게 이루어지나요?
@@ -75,7 +78,9 @@ export default function Home() {
             <Navbar />
             <div className="wraper">
               <div className="nft-box">
-                <span className="logo-div"></span>
+                <div style={{ width: "240px", height: "240px" }}>
+                  <Image alt="SUBS Logo" src={logo} width={240} height={240} />
+                </div>
                 <div className="nft-content">
                   <div className="info">
                     <div>
