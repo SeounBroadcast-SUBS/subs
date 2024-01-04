@@ -22,10 +22,10 @@ const SongRequest = () => {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        if (data.data.length === 0) {
+        if (data.length === 0) {
           setSongList(["아직 신청된 곡이 없습니다."]);
         } else {
-          const songLabels = data.data.map(
+          const songLabels = data.map(
             (song) => `${song.songTitle} - ${song.singer}`
           );
           setSongList(songLabels);
@@ -50,20 +50,7 @@ const SongRequest = () => {
   });
 
   useEffect(() => {
-    fetch("/api/song-request")
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        if (data.data.length === 0) {
-          setSongList(["아직 신청된 곡이 없습니다."]);
-        } else {
-          const songLabels = data.data.map(
-            (song) => `${song.songTitle} - ${song.singer}`
-          );
-          setSongList(songLabels);
-        }
-      });
-
+    refreshSongList();
     // Swal.fire({
     //   icon: "info",
     //   title: "죄송합니다.",
@@ -77,7 +64,7 @@ const SongRequest = () => {
     // });
   }, []);
 
-  const handleSubmit = (event) => {
+  async function handleSubmit(event) {
     event.preventDefault();
 
     if (
@@ -89,8 +76,6 @@ const SongRequest = () => {
       return;
     }
 
-    setIsLoad(true);
-
     // Create a request object
     const request = {
       name,
@@ -101,50 +86,50 @@ const SongRequest = () => {
 
     console.log(request);
 
-    // Send the request to the server
-    fetch("/api/song-request", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(request),
-    })
-      .then((response) => {
-        Swal.fire({
-          title: "신청 시 주의사항",
-          html: `<p>신청 시 주의사항을 한번 더 확인해주세요!</p>
-          <h3>건전한 노래만 신청해주세요.</h3>
-          <h3>일본노래, 이세계아이돌, 보컬로이드 등은 신청하지 말아주세요.</h3>
-          <h3>본인이 직접 신청해주세요.</h3>
-          <h3>중복된 가수의 노래 신청은 하지 말아주세요.</h3>`,
-        }).then(() => {
-          if (response.ok) {
-            // Request successful
-            setIsLoad(false);
-            Swal.fire({
-              icon: "success",
-              title: "Thank you!",
-              text: "노래가 신청되었습니다.",
-            }).then(() => {
-              refreshSongList();
-            });
-          } else {
-            // Request failed
-            response.json().then((data) => {
-              setIsLoad(false);
-              Swal.fire({
-                icon: "error",
-                title: "Error!",
-                text: `${data.message}`,
-              }).then(() => {
-                refreshSongList();
-              });
-            });
-          }
+    let isRequestValid = true;
+    Swal.fire({
+      title: "신청 시 주의사항",
+      html: `<p>신청 시 주의사항을 한번 더 확인해주세요!</p>
+      <h3>건전한 노래만 신청해주세요.</h3>
+      <h3>일본노래, 이세계아이돌, 보컬로이드 등은 신청하지 말아주세요.</h3>
+      <h3>본인이 직접 신청해주세요.</h3>
+      <h3>중복된 가수의 노래 신청은 하지 말아주세요.</h3>`,
+      showCancelButton: true,
+      showLoaderOnConfirm: true,
+      showConfirmButton: true,
+      preConfirm: async () => {
+        const response = await fetch("/api/song-request", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(request),
         });
+        if (!response.ok) {
+          const v = await response.json().then((result) => result.message)
+          isRequestValid = false;
+          console.log(v)
+          return Swal.fire({
+            icon: "error",
+            title: "Invalid Request!",
+            text: v,
+          });
+        }
+      },
+      allowOutsideClick: () => !Swal.isLoading(),
+    })
+      .then((result) => {
+        if (result.isConfirmed && isRequestValid) {
+          Swal.fire({
+            icon: "success",
+            title: "Thank you!",
+            text: "노래가 신청되었습니다.",
+          }).then(() => {
+            refreshSongList();
+          });
+        }
       })
       .catch((error) => {
-        setIsLoad(false);
         Swal.fire({
           icon: "info",
           text:
@@ -154,7 +139,7 @@ const SongRequest = () => {
         });
         console.error(error);
       });
-  };
+  }
 
   return (
     <>

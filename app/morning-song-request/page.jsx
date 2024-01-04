@@ -22,10 +22,10 @@ export default function MorningSongRequest() {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        if (data.data.length === 0) {
+        if (data.length === 0) {
           setSongList(["아직 신청된 곡이 없습니다."]);
         } else {
-          const songLabels = data.data.map(
+          const songLabels = data.map(
             (song) => `${song.songTitle} - ${song.singer}`
           );
           setSongList(songLabels);
@@ -50,34 +50,10 @@ export default function MorningSongRequest() {
   });
 
   useEffect(() => {
-    fetch("/api/morning-song-request")
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        if (data.data.length === 0) {
-          setSongList(["아직 신청된 곡이 없습니다."]);
-        } else {
-          const songLabels = data.data.map(
-            (song) => `${song.songTitle} - ${song.singer}`
-          );
-          setSongList(songLabels);
-        }
-      });
-
-    // Swal.fire({
-    //   icon: "info",
-    //   title: "죄송합니다.",
-    //   html: `
-    //   <p>
-    //     2023년 8월 24일 NCT와 BTS의 노래가 신청되지 않는 현상이 발생했습니다.
-    //     이는 방송부 사이트 개발자가 동일한 가수의 신청곡을 신청하지 못하도록 하는 기능을 개발중에 일어난 참사입니다. 죄송합니다. <br /> <br />
-    //     하지만, 동일한 가수의 신청곡이 다양한 편법(예: "b t s", "bts)")으로 신청되는 것은 점심시간 음악신청 신청 시 주의사항을 위반하는 것이므로 블랙리스트에 추가될 수 있습니다.
-    //     노래 신청 전에 동일한 가수의 신청곡이 있는지 꼭 확인하고 신청하여 주시기 바랍니다.
-    //   </p>`,
-    // });
+    refreshSongList();
   }, []);
 
-  const handleSubmit = (event) => {
+  async function handleSubmit(event) {
     event.preventDefault();
 
     if (
@@ -89,8 +65,6 @@ export default function MorningSongRequest() {
       return;
     }
 
-    setIsLoad(true);
-
     // Create a request object
     const request = {
       name,
@@ -99,50 +73,50 @@ export default function MorningSongRequest() {
       singer,
     };
 
-    // Send the request to the server
-    fetch("/api/morning-song-request", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(request),
-    })
-      .then((response) => {
-        Swal.fire({
-          title: "신청 시 주의사항",
-          html: `<p>신청 시 주의사항을 한번 더 확인해주세요!</p>
-          <h3>건전한 노래만 신청해주세요.</h3>
-          <h3>일본노래, 이세계아이돌, 보컬로이드 등은 신청하지 말아주세요.</h3>
-          <h3>본인이 직접 신청해주세요.</h3>
-          <h3>중복된 가수의 노래 신청은 하지 말아주세요.</h3>`,
-        }).then(() => {
-          if (response.ok) {
-            // Request successful
-            setIsLoad(false);
-            Swal.fire({
-              icon: "success",
-              title: "Thank you!",
-              text: "노래가 신청되었습니다.",
-            }).then(() => {
-              refreshSongList();
-            });
-          } else {
-            // Request failed
-            response.json().then((data) => {
-              setIsLoad(false);
-              Swal.fire({
-                icon: "error",
-                title: "Error!",
-                text: `${data.message}`,
-              }).then(() => {
-                refreshSongList();
-              });
-            });
-          }
+    console.log(request);
+
+    let isRequestValid = true;
+    Swal.fire({
+      title: "신청 시 주의사항",
+      html: `<p>신청 시 주의사항을 한번 더 확인해주세요!</p>
+      <h3>건전한 노래만 신청해주세요.</h3>
+      <h3>일본노래, 이세계아이돌, 보컬로이드 등은 신청하지 말아주세요.</h3>
+      <h3>본인이 직접 신청해주세요.</h3>
+      <h3>중복된 가수의 노래 신청은 하지 말아주세요.</h3>`,
+      showCancelButton: true,
+      showLoaderOnConfirm: true,
+      showConfirmButton: true,
+      preConfirm: async () => {
+        const response = await fetch("/api/morning-song-request", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(request),
         });
+        if (!response.ok) {
+          isRequestValid = false;
+          return Swal.fire({
+            icon: "error",
+            title: "Invalid Request!",
+            text: await response.json().then((result) => result.message),
+          });
+        }
+      },
+      allowOutsideClick: () => !Swal.isLoading(),
+    })
+      .then((result) => {
+        if (result.isConfirmed && isRequestValid) {
+          Swal.fire({
+            icon: "success",
+            title: "Thank you!",
+            text: "노래가 신청되었습니다.",
+          }).then(() => {
+            refreshSongList();
+          });
+        }
       })
       .catch((error) => {
-        setIsLoad(false);
         Swal.fire({
           icon: "info",
           text:
@@ -152,7 +126,7 @@ export default function MorningSongRequest() {
         });
         console.error(error);
       });
-  };
+  }
 
   return (
     <>

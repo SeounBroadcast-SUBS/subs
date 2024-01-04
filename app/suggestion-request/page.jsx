@@ -31,7 +31,7 @@ export default function SuggestionRequest() {
     fetch("/api/suggestion-request")
       .then((response) => response.json())
       .then((data) => {
-        if (data.data.length === 0) {
+        if (data.length === 0) {
           setSuggestionContent(
             <div>
               <p className="label-list">아직 신청된 건의사항이 없습니다.</p>
@@ -39,7 +39,7 @@ export default function SuggestionRequest() {
           );
         } else {
           setSuggestionContent(
-            data.data.map((suggestion, index) => (
+            data.map((suggestion, index) => (
               <div key={index}>
                 <p className="label-list">
                   <span>Q: {suggestion.suggestion}</span>

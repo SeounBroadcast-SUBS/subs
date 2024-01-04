@@ -4,11 +4,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import logo from "@/public/logo192.png";
-import { Inter } from "next/font/google";
 
-const inter = Inter({ subsets: ["latin"] });
-
-export default function RootLayout({ children }) {
+export default function PageLayout({ children }) {
   const [activeComponent, setActiveComponent] = useState("");
 
   useEffect(() => {
@@ -20,7 +17,7 @@ export default function RootLayout({ children }) {
 
   return (
     <>
-      <div className={inter.className + " container"}>
+      <div className="container">
         <aside>
           <div className="toggle">
             <div
@@ -60,7 +57,8 @@ export default function RootLayout({ children }) {
             <Link
               className={activeComponent === "song-request" ? "active" : ""}
               onClick={() => {
-                setActiveComponent("song-request")
+                setActiveComponent("song-request");
+                console.log(activeComponent);
               }}
               href="/song-request"
             >
@@ -69,9 +67,11 @@ export default function RootLayout({ children }) {
             </Link>
 
             <Link
-              className={activeComponent === "suggestion-request" ? "active" : ""}
+              className={
+                activeComponent === "suggestion-request" ? "active" : ""
+              }
               onClick={() => {
-                setActiveComponent("suggestion-request")
+                setActiveComponent("suggestion-request");
               }}
               href="/suggestion-request"
             >
@@ -80,9 +80,11 @@ export default function RootLayout({ children }) {
             </Link>
 
             <Link
-              className={activeComponent === "morning-song-request" ? "active" : ""}
+              className={
+                activeComponent === "morning-song-request" ? "active" : ""
+              }
               onClick={() => {
-                setActiveComponent("morning-song-request")
+                setActiveComponent("morning-song-request");
               }}
               href="/morning-song-request"
             >
