@@ -1,36 +1,28 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Seoun Broadcast System (SUBS)
 
-## Getting Started
+Welcome to the README for the School Broadcast Website (SUBS), the online platform for Seoun Broadcasting System at 서운중학교.
 
-First, run the development server:
+## Introduction
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+The SUBS (Seoun Broadcasting System) is a student organization at 서운중학교 that handles various broadcasts within the school premises, including lunchtime music broadcasts, in-house announcements, and the Seoun Festival. As of 2023, the SUBS team consists of 14 members, including the head of broadcasting.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Features
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+- Lunchtime Music Broadcast: Users can request songs to be played during lunchtime.
+- FAQ Section: Provides answers to common questions about the broadcasting system.
+- Meet the Developer: Learn about the developer behind the broadcasting website.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## FAQ
 
-## Learn More
+### Q: How are songs selected for the lunchtime music broadcast?
+A: Users can submit song requests on the website. The SUBS team members then curate and play the selected songs. Please note that not all requested songs may be played.
 
-To learn more about Next.js, take a look at the following resources:
+### Q: How are members of the broadcasting team selected?
+A: Broadcasting team members are recruited at the beginning of the semester (March-April). Look for recruitment notices on the [Seoun Middle School Website](https://seoun.sen.ms.kr/) and within the school premises.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### Q: Who developed the broadcasting website?
+A: The broadcasting website was developed by Kang Guhyeon:
+   - Name: 강구현
+   - Student ID: 21201
+   - Email: gangguhyeon1113@gmail.com
+   - Instagram: @kgh_guhyeon
