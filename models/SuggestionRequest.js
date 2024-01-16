@@ -1,0 +1,38 @@
+import mongoose, { Schema } from "mongoose";
+
+const suggestionSchema = new Schema({
+  answer: {
+    type: String,
+    required: true,
+  },
+  suggestion: {
+    type: String,
+    required: true,
+  },
+  name: {
+    type: String,
+    required: true,
+  },
+  studentNumber: {
+    type: String,
+    required: true,
+  },
+  timestamp: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
+const suggestionRequestSchema = new Schema({
+  requests: [suggestionSchema], // Array of suggestion requests
+});
+
+const SuggestionRequest =
+  mongoose.models.SuggestionRequest ||
+  mongoose.model(
+    "suggestion-request",
+    suggestionRequestSchema,
+    "suggestion-requests"
+  );
+
+export default SuggestionRequest;
