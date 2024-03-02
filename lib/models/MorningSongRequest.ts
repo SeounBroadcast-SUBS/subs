@@ -23,17 +23,21 @@ const songSchema = new Schema({
   },
 });
 
-// Define the schema for the song request grouped by date
-const songRequestSchema = new Schema({
+// Define the schema for the morning song request grouped by date
+const morningSongRequestSchema = new Schema({
   date: {
     type: String,
     required: true,
   },
-  requests: [songSchema], // Array of song requests
+  requests: [songSchema], // Array of morning song requests
 });
 
-const SongRequest =
+const MorningSongRequestModel =
   mongoose.models.SongRequest ||
-  mongoose.model("song-request", songRequestSchema, "song-requests");
+  mongoose.model(
+    "morning-song-request",
+    morningSongRequestSchema,
+    "morning-song-requests"
+  );
 
-export default SongRequest;
+export default MorningSongRequestModel;

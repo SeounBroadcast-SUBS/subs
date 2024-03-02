@@ -27,7 +27,7 @@ const suggestionRequestSchema = new Schema({
   requests: [suggestionSchema], // Array of suggestion requests
 });
 
-const SuggestionRequest =
+const SuggestionRequestModel =
   mongoose.models.SuggestionRequest ||
   mongoose.model(
     "suggestion-request",
@@ -35,4 +35,4 @@ const SuggestionRequest =
     "suggestion-requests"
   );
 
-export default SuggestionRequest;
+export default SuggestionRequestModel;

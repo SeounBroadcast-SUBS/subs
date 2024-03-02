@@ -1,9 +1,34 @@
-import connectMongoDB from "@/lib/monodb";
-import SongRequest from "@/models/SongRequest";
-import { NextResponse } from "next/server";
+import { connectToDB } from "@/lib/mongoose";
+import MorningSongRequestModel from "@/lib/models/MorningSongRequest";
+import { NextRequest, NextResponse } from "next/server";
 
-function isRequestValid(requests, blacklist, newRequest) {
-  const strProcess = (str) =>
+interface SongRequest {
+  name: string;
+  studentNumber: string;
+  songTitle: string;
+  singer: string;
+}
+
+interface BlacklistItem {
+  name: string;
+  studentNumber: string;
+}
+
+interface Validity {
+  isValid: boolean;
+  message: string;
+}
+
+function isRequestValid({
+  requests,
+  blacklist,
+  newRequest,
+}: {
+  requests: SongRequest[];
+  blacklist: BlacklistItem[];
+  newRequest: SongRequest;
+}): Validity {
+  const strProcess = (str: string) =>
     str
       .toUpperCase()
       .replace(/[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi, "") // replace all special chars to empty char
@@ -11,46 +36,47 @@ function isRequestValid(requests, blacklist, newRequest) {
       .split(" ")
       .join("");
 
-  const { name, studentNumber, songTitle, singer } = newRequest;
-  let message = "";
+  const { studentNumber, songTitle, singer } = newRequest;
+  let message: string = "";
 
   // Check if it is a weekend in Seoul, Korea
   const today = new Date();
   const dayOfWeek = today.getDay();
   // const isWeekend = false;
-  const isWeekend = dayOfWeek === 0 || dayOfWeek === 6; // 0 is Sunday, 6 is Saturday (considering Sunday as the weekend)
+  const isWeekend: boolean = dayOfWeek === 0 || dayOfWeek === 6; // 0 is Sunday, 6 is Saturday (considering Sunday as the weekend)
+  const isMorning: boolean = today.getHours() < 8;
 
   // Check if the request limit (10개) is over
   const requestCount = requests.length;
-  const isRequestLimitReached = requestCount >= 10;
+  const isRequestLimitReached: boolean = requestCount >= 10;
 
   // Check if the duplicated song has already been requested
-  const isDuplicateSongRequested = requests.some(
+  const isDuplicateSongRequested: boolean = requests.some(
     (req) => strProcess(req.songTitle) === strProcess(songTitle)
   );
 
   // Check if the requester already requested
-  const isRequesterAlreadyRequested = requests.some(
+  const isRequesterAlreadyRequested: boolean = requests.some(
     (req) => req.studentNumber === studentNumber
   );
 
   // Check if the requester is in the blacklist
-  const isRequesterBlacklisted = blacklist.some(
+  const isRequesterBlacklisted: boolean = blacklist.some(
     (blacklisted) => blacklisted.studentNumber === studentNumber
   );
 
   // Check if the duplicated singer has been requested
-  const duplicatedSingerNames = [
+  const duplicatedSingerNames: string[][] = [
     ["G-IDLE", "IDLE", "아이들", "여자아이들"],
     ["bts", "방탄소년단", "방탄"],
     ["BTS 정국", "bts jungkook", "jungkook", "정국"],
     ["v", "방탄소년단 v", "방탄소년단 뷔", "뷔", "방탄 v", "방탄 뷔"],
     ["nct", "엔시티"],
     ["엔시티 유", "nct u"],
-    ["Seventeen", "세븐틴"],
+    ["Seventeen", "세븐틴", "새븐틴"],
   ].map((d, i) => d.map(strProcess));
 
-  const isDuplicateSingerRequested = duplicatedSingerNames.some(
+  const isDuplicateSingerRequested: boolean = duplicatedSingerNames.some(
     (singerVariations) =>
       requests.some((req) =>
         singerVariations.includes(strProcess(req.singer))
@@ -60,6 +86,8 @@ function isRequestValid(requests, blacklist, newRequest) {
   // Final validation
   if (isWeekend) {
     message = "주말에는 신청을 받지 않습니다.";
+  } else if (isMorning) {
+    message = "신청이 가능한 시간대가 아닙니다.";
   } else if (isRequestLimitReached) {
     message = "오늘 신청이 마감되었습니다. (10개)";
   } else if (isDuplicateSongRequested) {
@@ -76,40 +104,43 @@ function isRequestValid(requests, blacklist, newRequest) {
     message = "동일한 가수의 신청곡이 존재합니다.";
   }
 
-  const isValid = message === ""; // If error message is empty, request is valid
+  const isValid: boolean = message === ""; // If error message is empty, request is valid
 
   return { isValid, message };
 }
 
-export async function POST(req) {
-  const ReqestedJSON = await req.json();
-  console.log(ReqestedJSON);
-  const { name, studentNumber, songTitle, singer } = ReqestedJSON;
-
-  await connectMongoDB();
+async function addSongRequest({
+  name,
+  studentNumber,
+  songTitle,
+  singer,
+}: SongRequest): Promise<Validity> {
+  await connectToDB();
 
   const isValidDoc = JSON.parse(
-    JSON.stringify(await SongRequest.findById("659454a2f2790d57d00ff1fd"))
+    JSON.stringify(
+      await MorningSongRequestModel.findById("65945566f2790d57d00ff1fe")
+    )
   );
   if (!isValidDoc.isValid) {
-    return NextResponse.json({ message: isValidDoc.message }, { status: 500 });
+    return { isValid: false, message: isValidDoc.message };
   }
 
   const currentDate = new Date();
-  const v = await SongRequest.findOne({
+  const v = await MorningSongRequestModel.findOne({
     date: currentDate.toLocaleDateString(),
   });
   const requests = v ? v : { requests: [] };
-  const blacklist = await SongRequest.findOne({
+  const blacklist = await MorningSongRequestModel.findOne({
     date: "blacklist",
   });
-  const requestValidity = isRequestValid(
-    requests.requests,
-    blacklist.requests,
-    ReqestedJSON
-  );
+  const requestValidity = isRequestValid({
+    requests: requests.requests,
+    blacklist: blacklist.requests,
+    newRequest: { name, studentNumber, songTitle, singer },
+  });
   if (requestValidity.isValid) {
-    await SongRequest.findOneAndUpdate(
+    await MorningSongRequestModel.findOneAndUpdate(
       { date: currentDate.toLocaleDateString() },
       {
         $push: {
@@ -125,25 +156,34 @@ export async function POST(req) {
       { new: true, upsert: true, setDefaultsOnInsert: true }
     );
 
-    return NextResponse.json(
-      { message: "노래가 성공적으로 신청되었습니다." },
-      { status: 201 }
-    );
+    return {
+      isValid: true,
+      message: "노래가 성공적으로 신청되었습니다.",
+    };
   } else {
-    return NextResponse.json(
-      { message: requestValidity.message },
-      { status: 500 }
-    );
+    return { isValid: false, message: requestValidity.message };
   }
 }
 
-export async function GET() {
-  await connectMongoDB();
+async function getSongList(): Promise<SongRequest[]> {
+  await connectToDB();
   const currentDate = new Date();
-  const v = await SongRequest.findOne({
+  const v = await MorningSongRequestModel.findOne({
     date: currentDate.toLocaleDateString(),
   });
-  const requests = v ? v : { requests: [] };
-
-  return NextResponse.json(requests.requests, { status: 200 });
+  const requests: { requests: SongRequest[] } = v ? v : { requests: [] };
+  return requests.requests;
 }
+
+export async function POST(request: NextRequest) {
+  const requestedData: SongRequest = await request.json();
+  const result = await addSongRequest(requestedData);
+  return NextResponse.json(result);
+}
+
+export async function GET() {
+  const data = await getSongList();
+  return NextResponse.json(data);
+}
+
+// TODO: 전날밤에 신청받는 기능
