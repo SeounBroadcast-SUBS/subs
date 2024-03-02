@@ -7,6 +7,8 @@ import type { Metadata } from "next";
 import MainLayout from "@/components/MainLayout";
 import { Toaster } from "@/components/ui/sonner";
 
+import { SpeedInsights } from '@vercel/speed-insights/next';
+
 const fontSans = FontSans({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
@@ -30,6 +32,7 @@ export default function RootLayout({
       >
         <MainLayout>{children}</MainLayout>
         <Toaster richColors />
+        <SpeedInsights />
       </body>
     </html>
   );
