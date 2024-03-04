@@ -40,11 +40,7 @@ export default function Home(): React.ReactNode {
           <AccordionTrigger>방송부원은 어떻게 선출되나요?</AccordionTrigger>
           <AccordionContent>
             &nbsp;&nbsp;&nbsp;방송부원은 학기 초 (3~4월)에 1학년 입학생들을
-            대상으로 모집 공고가{" "}
-            <a href="https://seoun.sen.ms.kr/" className="underline">
-              서운중학교 웹사이트
-            </a>
-            와 교내에 계시됩니다.
+            대상으로 모집 공고가 교내에 계시됩니다.
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="item-5">
@@ -56,7 +52,7 @@ export default function Home(): React.ReactNode {
               <br />
               <br />
               &nbsp;&nbsp;&nbsp;이름: 강구현 <br />
-              &nbsp;&nbsp;&nbsp;학번: 3....
+              &nbsp;&nbsp;&nbsp;학번: 31001
               <br />
               &nbsp;&nbsp;&nbsp;메일주소: gangguhyeon1113@gmail.com
               <br />
