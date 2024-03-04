@@ -28,7 +28,7 @@ const suggestionRequestSchema = new Schema({
 });
 
 const SuggestionRequestModel =
-  mongoose.models.SuggestionRequest ||
+  mongoose.models.SuggestionRequestModel ||
   mongoose.model(
     "suggestion-request",
     suggestionRequestSchema,

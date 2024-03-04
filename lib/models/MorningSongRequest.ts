@@ -33,7 +33,7 @@ const morningSongRequestSchema = new Schema({
 });
 
 const MorningSongRequestModel =
-  mongoose.models.SongRequest ||
+  mongoose.models.MorningSongRequestModel ||
   mongoose.model(
     "morning-song-request",
     morningSongRequestSchema,

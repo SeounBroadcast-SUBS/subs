@@ -27,6 +27,7 @@ export default function MainLayout({
     isSongRequestActive,
     isMorningSongRequestActive,
     isSuggestionActive,
+    isNewCrewActive,
   } = useNavigation();
 
   function getTitle(): string {
@@ -38,6 +39,8 @@ export default function MainLayout({
       return "등굣길 음악신청";
     } else if (isSuggestionActive) {
       return "건의사항 신청";
+    } else if (isNewCrewActive) {
+      return "방송부원 모집";
     } else {
       return "";
     }
@@ -88,7 +91,10 @@ export default function MainLayout({
   return (
     <ResizablePanelGroup direction="horizontal" className="h-screen">
       <SidebarLayout>
-        <aside id="sidebar" className="max-[640px]:absolute z-20 top-0 h-screen">
+        <aside
+          id="sidebar"
+          className="max-[640px]:absolute z-20 top-0 h-screen"
+        >
           <div className="max-[640px]:flex max-[640px]:gap-3 max-[640px]:w-3/4">
             <div className="block h-[200px] justify-center items-center p-6 bg-background overflow-hidden max-[640px]:border-solid max-[640px]:border h-screen">
               <div className="flex gap-3 w-full h-8 mt-3 mb-8 items-center font-semibold">
@@ -124,6 +130,10 @@ export default function MainLayout({
                 >
                   <Lucide.Mail className="w-5" />
                   <span>{"건의사항 신청"}</span>
+                </SidebarLink>
+                <SidebarLink hrefName={"/new-crew"} active={isNewCrewActive}>
+                  <Lucide.Mail className="w-5" />
+                  <span>{"방송부원 모집"}</span>
                 </SidebarLink>
               </div>
             </div>

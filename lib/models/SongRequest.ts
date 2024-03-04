@@ -33,7 +33,7 @@ const songRequestSchema = new Schema({
 });
 
 const SongRequestModel =
-  mongoose.models.SongRequest ||
+  mongoose.models.SongRequestModel ||
   mongoose.model("song-request", songRequestSchema, "song-requests");
 
 export default SongRequestModel;
