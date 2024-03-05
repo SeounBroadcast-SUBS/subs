@@ -19,6 +19,16 @@ interface Validity {
   message: string;
 }
 
+function getCurrentSeoulDateTime(): Date {
+  const seoulDateStr = new Date().toLocaleString("en-US", {
+    timeZone: "Asia/Seoul",
+  });
+
+  const seoulDateObj = new Date(seoulDateStr);
+
+  return seoulDateObj;
+}
+
 function isRequestValid({
   requests,
   blacklist,
@@ -40,7 +50,7 @@ function isRequestValid({
   let message: string = "";
 
   // Check if it is a weekend in Seoul, Korea
-  const today = new Date();
+  const today = getCurrentSeoulDateTime();
   const dayOfWeek = today.getDay();
   // const isWeekend = false;
   const isWeekend = dayOfWeek === 0 || dayOfWeek === 6; // 0 is Sunday, 6 is Saturday (considering Sunday as the weekend)
@@ -121,7 +131,7 @@ async function addSongRequest({
     return { isValid: false, message: isValidDoc.message };
   }
 
-  const currentDate = new Date();
+  const currentDate = getCurrentSeoulDateTime();
   const v = await SongRequestModel.findOne({
     date: currentDate.toLocaleDateString(),
   });
@@ -144,7 +154,7 @@ async function addSongRequest({
             studentNumber: studentNumber,
             songTitle: songTitle,
             singer: singer,
-            timestamp: new Date(),
+            timestamp: getCurrentSeoulDateTime(),
           },
         },
       },
@@ -162,7 +172,7 @@ async function addSongRequest({
 
 async function getSongList(): Promise<SongRequest[]> {
   await connectToDB();
-  const currentDate = new Date();
+  const currentDate = getCurrentSeoulDateTime();
   const v = await SongRequestModel.findOne({
     date: currentDate.toLocaleDateString(),
   });
